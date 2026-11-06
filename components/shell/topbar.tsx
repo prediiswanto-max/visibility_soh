@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Bell, ChevronDown, Moon, Search, Sun } from "lucide-react"
+import { Bell, ChevronDown, Moon, PanelLeftOpen, Search, Sun } from "lucide-react"
 import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,7 +9,13 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { MobileNav } from "./mobile-nav"
 import { warehouse } from "@/lib/wms-data"
 
-export function Topbar() {
+export function Topbar({
+  sidebarCollapsed = false,
+  onToggleSidebar,
+}: {
+  sidebarCollapsed?: boolean
+  onToggleSidebar?: () => void
+}) {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -24,6 +30,19 @@ export function Topbar() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-indigo-500/50 via-amber-400/50 to-teal-400/40"
       />
       <div className="mx-auto flex h-14 w-full max-w-[1500px] items-center gap-2 px-4 lg:px-8">
+        {sidebarCollapsed && onToggleSidebar && (
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="hidden lg:inline-flex"
+            aria-label="Show sidebar"
+            title="Show sidebar"
+            onClick={onToggleSidebar}
+          >
+            <PanelLeftOpen className="h-4 w-4" />
+          </Button>
+        )}
+
         <MobileNav />
 
         <div className="relative hidden w-full max-w-sm items-center md:flex">
